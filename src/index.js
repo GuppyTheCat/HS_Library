@@ -4,28 +4,22 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import { getInfo } from "./Components/hsApi";
 import "./index.css";
 
 class App extends Component {
-
-  loadInfo() {
-    var request = require("request");
-
-    var options = {
-      method: 'GET',
-      url: 'https://omgvamp-hearthstone-v1.p.rapidapi.com/info',
-      headers: {
-        'x-rapidapi-host': 'omgvamp-hearthstone-v1.p.rapidapi.com',
-        'x-rapidapi-key': '52905635d6msha8cd1b376abf0bep14efa2jsn4fdc3518bd3a'
-      }
+  constructor(props) {
+    super(props);
+    this.getInfo = getInfo.bind(this);
+    this.state = {
+      hsApiData: {}
     };
-
-    request(options, function (error, response, body) {
-      if (error) throw new Error(error);
-
-      console.log(JSON.parse(body));
-    });
   }
+
+  componentDidMount() {
+    this.getInfo();
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -35,7 +29,7 @@ class App extends Component {
               <Filters />
             </MDBCol>
             <MDBCol sm="8" lg="9">
-                {this.loadInfo()}
+              {this.state.hsApiData.patch}
             </MDBCol>
           </MDBRow>
         </MDBContainer>
@@ -106,13 +100,11 @@ class Filters extends Component {
     return (
       <React.Fragment>
         {filterList.map(filter => (
-          <React.Fragment>
-            <h4>{filter.title}</h4>
-            <Filter
-              key={filter.id}
-              list={filter.list}
-            />
-          </React.Fragment>
+          <Filter
+            key={filter.id}
+            title={filter.title}
+            list={filter.list}
+          />
         ))}
       </React.Fragment>
     );
@@ -123,10 +115,14 @@ class Filter extends Component {
   render() {
     return (
       <React.Fragment>
+        <h4>{this.props.title}</h4>
         <select className="browser-default custom-select">
+          <option value="empty" key={0}>
+            Select {this.props.title}
+          </option>
           {
-            this.props.list.map(option => (
-              <option>{option}</option>
+            this.props.list.map((option, key) => (
+              <option value={option} key={key + 1}>{option}</option>
             ))
           }
         </select>
