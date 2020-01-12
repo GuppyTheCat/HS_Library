@@ -3,15 +3,17 @@ import ReactDOM from "react-dom";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
-import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
-import { getInfo } from "./Components/hsApi";
+import { MDBContainer, MDBRow, MDBCol} from "mdbreact";
 import "./index.css";
+import { getInfo } from "./Components/HsApi";
+import LocaleSelector from "./Components/LocaleSelector";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.getInfo = getInfo.bind(this);
     this.state = {
+      locale: "enUS",
       hsApiData: {}
     };
   }
@@ -29,6 +31,7 @@ class App extends Component {
               <Filters />
             </MDBCol>
             <MDBCol sm="8" lg="9">
+              <LocaleSelector locale={this.state.locale}/>
               {this.state.hsApiData.patch}
             </MDBCol>
           </MDBRow>
