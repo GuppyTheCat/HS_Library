@@ -7,13 +7,14 @@ export default class LocaleSelector extends Component {
     this.state = {
       value: this.props.locale
     }
-    this.select = this.select.bind(this);
+    this.selectLocale = this.selectLocale.bind(this);
   }
 
-  select(event) {
+  selectLocale(event) {
     this.setState({
       value: event.target.value
     });
+    this.props.changeLocale(event);
   }
   render() {
     return (
@@ -22,8 +23,8 @@ export default class LocaleSelector extends Component {
           {this.state.value === "ruRU" ? "Русский" : "English"}
         </MDBDropdownToggle>
         <MDBDropdownMenu basic >
-          <MDBDropdownItem value="enUS" onClick={this.select}>English</MDBDropdownItem>
-          <MDBDropdownItem value="ruRU" onClick={this.select}>Русский</MDBDropdownItem>
+          <MDBDropdownItem value="enUS" onClick={this.selectLocale}>English</MDBDropdownItem>
+          <MDBDropdownItem value="ruRU" onClick={this.selectLocale}>Русский</MDBDropdownItem>
         </MDBDropdownMenu>
       </MDBDropdown>
     );

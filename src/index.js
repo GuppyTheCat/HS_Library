@@ -3,23 +3,34 @@ import ReactDOM from "react-dom";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
-import { MDBContainer, MDBRow, MDBCol} from "mdbreact";
+import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import "./index.css";
-import { getInfo } from "./Components/HsApi";
+import { getInfo, getCards } from "./Components/HsApi";
 import LocaleSelector from "./Components/LocaleSelector";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.getInfo = getInfo.bind(this);
+    this.getCards = getCards.bind(this);
+    this.changeLocale = this.changeLocale.bind(this);
     this.state = {
       locale: "enUS",
-      hsApiData: {}
+      hsApiInfo: {}
     };
   }
 
   componentDidMount() {
     this.getInfo();
+    this.getCards();
+  }
+
+  changeLocale(event) {
+    this.setState({
+      locale: event.target.value
+    });
+    this.getInfo();
+    this.getCards();
   }
 
   render() {
@@ -31,8 +42,8 @@ class App extends Component {
               <Filters />
             </MDBCol>
             <MDBCol sm="8" lg="9">
-              <LocaleSelector locale={this.state.locale}/>
-              {this.state.hsApiData.patch}
+              <LocaleSelector locale={this.state.locale} changeLocale={this.changeLocale} />
+              {this.state.hsApiInfo.patch}
             </MDBCol>
           </MDBRow>
         </MDBContainer>
