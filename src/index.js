@@ -7,6 +7,8 @@ import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import "./index.css";
 import { getInfo, getCards } from "./Components/HsApi";
 import LocaleSelector from "./Components/LocaleSelector";
+import * as FiltersData from "./Components/FiltersLocales";
+import * as FilterList from "./Components/FiltersList";
 
 class App extends Component {
   constructor(props) {
@@ -16,11 +18,11 @@ class App extends Component {
     this.changeLocale = this.changeLocale.bind(this);
     this.state = {
       locale: "enUS",
-      hsApiInfo: {}
+      cardSet: "Basic",
+      playerClass: "Paladin",
+      hsApiInfo: {},
+      hsApiCards: {}
     };
-  }
-
-  componentDidMount() {
     this.getInfo();
     this.getCards();
   }
@@ -39,10 +41,10 @@ class App extends Component {
         <MDBContainer fluid>
           <MDBRow>
             <MDBCol sm="4" lg="3">
-              <Filters />
+              <Filters locale={this.state.locale} />
+              <LocaleSelector locale={this.state.locale} changeLocale={this.changeLocale} />
             </MDBCol>
             <MDBCol sm="8" lg="9">
-              <LocaleSelector locale={this.state.locale} changeLocale={this.changeLocale} />
               {this.state.hsApiInfo.patch}
             </MDBCol>
           </MDBRow>
@@ -55,58 +57,7 @@ class App extends Component {
 class Filters extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      filterList:
-        [
-          {
-            id: 1,
-            title: "Set",
-            list: [
-              "Basic", "Classic", "Naxxramas", "Goblins vs Gnomes", "Blacrock Mountain", "The Grand Tournament",
-              "The League of Explorers", "Whispers of the Old Gods", "One Night in Karazhan", "Mean Streets of Gadgetzan",
-              "Journey to Un'Goro", "Knights of the Frozen Throne", "Kobolds & Catacombs", "The Witchwood", "The Boomsday Project",
-              "Rastakhan's Rumble", "Rise of Shadows", "Saviors of Uldum", "Descent of Dragons"
-            ]
-          },
-          {
-            id: 2,
-            title: "Cost",
-            list: [
-              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10+"
-            ]
-          },
-          {
-            id: 3,
-            title: "Rarity",
-            list: [
-              "Free", "Common", "Rare", "Epic", "Legendary"
-            ]
-          },
-          {
-            id: 4,
-            title: "Type",
-            list: [
-              "Minion", "Spell", "Weapon", "Hero"
-            ]
-          },
-          {
-            id: 5,
-            title: "Mechanics",
-            list: [
-              "Battlecry", "Charge", "Choose One", "Combo", "Deathrattle", "Divine Shield", "Overload", "Poisonous",
-              "Secret", "Silence", "Taunt", "Windfury", "Freeze", "Inspire", "Discover", "C'Thun", "Jade Golem", "Adapt", "Quest",
-              "Lifesteal", "Echo", "Rush", "Magnetic", "Overkill", "Twinspell", "Reborn", "Sidequest"
-            ]
-          },
-          {
-            id: 6,
-            title: "Minion Type",
-            list: [
-              "Beast", "Demon", "Dragon", "Elemental", "Mech", "Murloc", "Pirate", "Totem"
-            ]
-          }
-        ]
-    }
+    this.state = {filterList: FilterList}
   }
 
   render() {
@@ -117,7 +68,9 @@ class Filters extends Component {
           <Filter
             key={filter.id}
             title={filter.title}
+            value={filter.value}
             list={filter.list}
+            locale={this.props.locale === "enUS" ? 0 : 1}
           />
         ))}
       </React.Fragment>
@@ -126,6 +79,7 @@ class Filters extends Component {
 }
 
 class Filter extends Component {
+
   render() {
     return (
       <React.Fragment>
@@ -136,7 +90,7 @@ class Filter extends Component {
           </option>
           {
             this.props.list.map((option, key) => (
-              <option value={option} key={key + 1}>{option}</option>
+              <option value={option} key={key + 1}>{FiltersData[this.props.value][option][this.props.locale]}</option>
             ))
           }
         </select>
