@@ -7,8 +7,8 @@ import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import "./index.css";
 import { getInfo, getCards } from "./Components/HsApi";
 import LocaleSelector from "./Components/LocaleSelector";
-import * as FiltersData from "./Components/FiltersLocales";
-import * as FilterList from "./Components/FiltersList";
+import * as FiltersLocales from "./Components/FiltersLocales";
+import * as FiltersList from "./Components/FiltersList";
 
 class App extends Component {
   constructor(props) {
@@ -57,20 +57,19 @@ class App extends Component {
 class Filters extends Component {
   constructor(props) {
     super(props);
-    this.state = {filterList: FilterList}
+    this.state = {FiltersList: FiltersList}
   }
 
   render() {
-    const { filterList } = this.state;
+    const { FiltersList } = this.state;
     return (
       <React.Fragment>
-        {filterList.map(filter => (
+        {FiltersList.map(filter => (
           <Filter
             key={filter.id}
-            title={filter.title}
             value={filter.value}
             list={filter.list}
-            locale={this.props.locale === "enUS" ? 0 : 1}
+            locale={this.props.locale}
           />
         ))}
       </React.Fragment>
@@ -83,14 +82,14 @@ class Filter extends Component {
   render() {
     return (
       <React.Fragment>
-        <h4>{this.props.title}</h4>
+        <h4>{FiltersLocales["title"][this.props.locale][this.props.value]}</h4>
         <select className="browser-default custom-select">
           <option value="empty" key={0}>
-            Select {this.props.title}
+            {FiltersLocales["optionTitle"][this.props.locale][this.props.value]}
           </option>
           {
             this.props.list.map((option, key) => (
-              <option value={option} key={key + 1}>{FiltersData[this.props.value][option][this.props.locale]}</option>
+              <option value={option} key={key + 1}>{FiltersLocales[this.props.value][this.props.locale][option]}</option>
             ))
           }
         </select>

@@ -1,7 +1,6 @@
 module.exports = [
     /*{
       id: 1,
-      title: "Set",
       value: "cardSet",
       list: [
         "Basic", "Classic", "Naxxramas", "Goblins vs Gnomes", "Blacrock Mountain", "The Grand Tournament",
@@ -12,7 +11,6 @@ module.exports = [
     },*/
     {
         id: 2,
-        title: "Class",
         value: "playerClass",
         list: [
             "Druid", "Hunter", "Mage", "Paladin", "Priest", "Rogue", "Shaman", "Warlock", "Warrior"
@@ -20,7 +18,6 @@ module.exports = [
     },
     /*{
       id: 3,
-      title: "Cost",
       value: "cost",
       list: [
         "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10+"
@@ -28,7 +25,6 @@ module.exports = [
     },*/
     {
         id: 4,
-        title: "Rarity",
         value: "rarity",
         list: [
             "Free", "Common", "Rare", "Epic", "Legendary"
@@ -36,7 +32,6 @@ module.exports = [
     },
     /*{
       id: 5,
-      title: "Type",
       value: "type",
       list: [
         "Minion", "Spell", "Weapon", "Hero"
@@ -44,7 +39,6 @@ module.exports = [
     },*/
     /*{
       id: 6,
-      title: "Mechanics",
       value: "mechanics",
       list: [
         "Battlecry", "Charge", "Choose One", "Combo", "Deathrattle", "Divine Shield", "Overload", "Poisonous",
@@ -54,7 +48,6 @@ module.exports = [
     },*/
     {
         id: 7,
-        title: "Minion Type",
         value: "race",
         list: [
             "Beast", "Demon", "Dragon", "Elemental", "Mech", "Murloc", "Pirate", "Totem"
