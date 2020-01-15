@@ -62,5 +62,4 @@ export function getCards() {
 
 function filterByPlayerClass(array, playerClass){
   let filteredArray = array.filter(item=>item.playerClass === playerClass);
-  console.log(filteredArray)
 }
