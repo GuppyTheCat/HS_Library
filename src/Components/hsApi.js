@@ -17,10 +17,8 @@ export function getInfo() {
       }
     })
     .then((response) => {
-      const hsApiInfo = response.data;
-      console.log(hsApiInfo);
       this.setState({
-        hsApiInfo: hsApiInfo
+        hsApiInfo: response.data
       });
     })
     .catch((error) => {
@@ -98,6 +96,7 @@ export function filterCards() {
           resultArray = tempArray;
           break;
         case "cost":
+          resultArray = resultArray.filter(item => item[option] === parseInt(this.state[option]))
           break;
         default:
           resultArray = resultArray.filter(item => item[option] === this.state[option])
