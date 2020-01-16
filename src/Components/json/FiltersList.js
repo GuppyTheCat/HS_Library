@@ -3,7 +3,7 @@ module.exports = [
       id: 1,
       title: "cardSet",
       list: [
-        "Basic", "Classic", "Naxxramas", "Goblins vs Gnomes", "Blacrock Mountain", "The Grand Tournament",
+        "Basic", "Classic", "Naxxramas", "Goblins vs Gnomes", "Blackrock Mountain", "The Grand Tournament",
         "The League of Explorers", "Whispers of the Old Gods", "One Night in Karazhan", "Mean Streets of Gadgetzan",
         "Journey to Un'Goro", "Knights of the Frozen Throne", "Kobolds & Catacombs", "The Witchwood", "The Boomsday Project",
         "Rastakhan's Rumble", "Rise of Shadows", "Saviors of Uldum", "Descent of Dragons"
@@ -20,7 +20,7 @@ module.exports = [
       id: 3,
       title: "cost",
       list: [
-        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10+"
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
       ]
     },
     {
