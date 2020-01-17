@@ -16,7 +16,7 @@ class App extends Component {
     this.getInfo = getInfo.bind(this);
     this.getCards = getCards.bind(this);
     this.filterCards = filterCards.bind(this);
-    this.changeLocale = this.changeLocale.bind(this);
+    this.setLocale = this.setLocale.bind(this);
     this.handleOptionChange = this.handleOptionChange.bind(this);
     this.state = {
       locale: "enUS",
@@ -27,7 +27,7 @@ class App extends Component {
     this.getCards();
   }
 
-  changeLocale(event) {
+  setLocale(event) {
     this.setState({
       locale: event.target.value
     },
@@ -49,12 +49,12 @@ class App extends Component {
           <MDBRow>
             <MDBCol sm="4" lg="3">
               <Filters locale={this.state.locale} handleOptionChange={this.handleOptionChange} />
-              <LocaleSelector locale={this.state.locale} changeLocale={this.changeLocale} />
+              <LocaleSelector locale={this.state.locale} setLocale={this.setLocale} />
             </MDBCol>
             <MDBCol sm="8" lg="9">
               {this.state.hsApiCards["Basic"] !== undefined &&
                 <CardsContainer
-                  cardsData={this.state.hsApiCards}
+                  cardsData={this.state.filteredCards}
                 />
               }
             </MDBCol>

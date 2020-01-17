@@ -68,11 +68,18 @@ export function filterCards() {
   }
   resultArray = resultArray.flat();
 
+  //Remove not collectible cards
+  resultArray = resultArray.filter(card => card.collectible);
+
   for (let filter of Object.values(FiltersList)) {
     this.filterByOption(filter.title)
   }
 
   console.log(resultArray);
+
+  this.setState({
+    filteredCards: resultArray
+  })
 
   function checkFilterIsSet(filter) {
     return this.state[filter] !== "" && this.state[filter] !== undefined
@@ -80,12 +87,12 @@ export function filterCards() {
 
   function filterByOption(option) {
     if (this.checkFilterIsSet(option)) {
+      let tempArray = []
       switch (option) {
         case "mechanics":
-          let tempArray = [];
           for (let i = 0; i < resultArray.length; i++) {
             let cardMechanics = resultArray[i]["mechanics"];
-            if (resultArray[i]["mechanics"]) {
+            if (cardMechanics) {
               for (let property of Object.values(cardMechanics)) {
                 if (property.name === FiltersLocales.mechanics[this.state.locale][this.state.mechanics]) {
                   tempArray.push(resultArray[i])
@@ -96,7 +103,16 @@ export function filterCards() {
           resultArray = tempArray;
           break;
         case "cost":
-          resultArray = resultArray.filter(item => item[option] === parseInt(this.state[option]))
+          for (let i = 0; i < resultArray.length; i++) {
+            let cardCost = resultArray[i]["cost"];
+            let filterCost = parseInt(this.state.cost);
+            if (cardCost < 10 && cardCost === filterCost) {
+              tempArray.push(resultArray[i]);
+            } else if (cardCost >= 10 && filterCost === 10) {
+              tempArray.push(resultArray[i]);
+            }
+          }
+          resultArray = tempArray;
           break;
         default:
           resultArray = resultArray.filter(item => item[option] === this.state[option])

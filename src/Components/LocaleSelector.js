@@ -14,7 +14,7 @@ export default class LocaleSelector extends Component {
     this.setState({
       value: event.target.value
     });
-    this.props.changeLocale(event);
+    this.props.setLocale(event);
   }
   render() {
     return (

@@ -9373,6 +9373,13 @@ react-image-lightbox@5.1.0:
     prop-types "^15.6.2"
     react-modal "^3.6.1"
 
+react-image@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-image/-/react-image-2.2.2.tgz#603452970b7d86a23c56cd2cd1f4f6b797b902d8"
+  integrity sha512-ZaVqZD9ZBGSpZwBftIbTVGyfYahqF7SjFpfT522SO6vJm+xoUCGK3z04aHV9rZUsaEU382auCM+wMyW5sh+lbg==
+  dependencies:
+    prop-types "15.7.2"
+
 react-is@^16.6.0, react-is@^16.6.3, react-is@^16.7.0, react-is@^16.8.4:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"

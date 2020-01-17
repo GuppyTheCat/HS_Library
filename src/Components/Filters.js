@@ -28,12 +28,22 @@ class Filter extends Component {
             <React.Fragment>
                 <h4>{FiltersLocales["title"][this.props.locale][this.props.title]}</h4>
                 <select className="browser-default custom-select">
-                    <option title={this.props.title} value="" key={0} onClick={this.props.handleOptionChange}>
+                    <option
+                        key={0}
+                        title={this.props.title}
+                        value=""
+                        onClick={this.props.handleOptionChange}>
                         {FiltersLocales["optionTitle"][this.props.locale][this.props.title]}
                     </option>
                     {
                         this.props.list.map((option, key) => (
-                            <option title={this.props.title} value={option} key={key + 1} onClick={this.props.handleOptionChange}>{FiltersLocales[this.props.title][this.props.locale][option]}</option>
+                            <option
+                                key={key + 1}
+                                title={this.props.title}
+                                value={option}
+                                onClick={this.props.handleOptionChange}>
+                                {FiltersLocales[this.props.title][this.props.locale][option]}
+                            </option>
                         ))
                     }
                 </select>
