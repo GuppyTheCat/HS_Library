@@ -5,7 +5,7 @@ import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import "./index.css";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
-import { getInfo, getCards, filterCards} from "./Components/HsApi";
+import { getInfo, getCards, filterCards } from "./Components/HsApi";
 import LocaleSelector from "./Components/LocaleSelector";
 import Filters from "./Components/Filters";
 import CardsContainer from "./Components/CardsContainer";
@@ -52,10 +52,11 @@ class App extends Component {
               <LocaleSelector locale={this.state.locale} setLocale={this.setLocale} />
             </MDBCol>
             <MDBCol sm="8" lg="9">
-              {this.state.hsApiCards["Basic"] !== undefined &&
+              {this.state.hsApiCards ?
                 <CardsContainer
-                  cardsData={this.state.filteredCards}
-                />
+                  filteredCards={this.state.filteredCards}
+                  locale={this.state.locale}
+                /> : ""
               }
             </MDBCol>
           </MDBRow>

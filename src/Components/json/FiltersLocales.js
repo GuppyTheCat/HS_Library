@@ -93,7 +93,8 @@ module.exports = {
             "Rogue": "Rogue",
             "Shaman": "Shaman",
             "Warlock": "Warlock",
-            "Warrior": "Warrior"
+            "Warrior": "Warrior",
+            "Neutral": "Neutral"
         },
         "ruRU": {
             "Druid": "Друид",
@@ -104,7 +105,8 @@ module.exports = {
             "Rogue": "Разбойник",
             "Shaman": "Шаман",
             "Warlock": "Чернокнижник",
-            "Warrior": "Воин"
+            "Warrior": "Воин",
+            "Neutral": "Общие"
         }
     },
     "cost": {

@@ -45,6 +45,7 @@ export function getCards() {
       this.setState({
         hsApiCards: response.data
       });
+      this.filterCards();
       console.log("Cards loaded");
     })
     .catch((error) => {
