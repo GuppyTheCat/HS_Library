@@ -33,7 +33,9 @@ export default class CardsContainer extends Component {
     }
 
     goToPage(event) {
-        this.setState({ activePage: event.target.pagenumber })
+        console.log(event.target, event.target.pagenumber, event.target.className);
+        /*this.setState({ activePage: event.target.pagenumber })*/
+        this.setState({ activePage: +(event.target.text).replace(/\D/g, "") - 1 })
     }
 
     render() {
@@ -47,9 +49,9 @@ export default class CardsContainer extends Component {
                 <MDBContainer fluid>
                     <MDBRow>
                         {this.state.pagedData[this.state.activePage] !== undefined &&
-                            this.state.pagedData[this.state.activePage].map(card => (
+                            this.state.pagedData[this.state.activePage].map(card =>
                                 <Card key={card.id} cardData={card} locale={this.props.locale} />
-                            ))
+                            )
                         }
                         <MDBCol size="12">
                             {this.state.pagedData[this.state.activePage] !== undefined &&
@@ -77,8 +79,7 @@ class Card extends Component {
                 <MDBCol
                     sm="6"
                     lg="4"
-                    xl="3"
-                    key={this.props.cardData.cardId}>
+                    xl="3">
                     <img
                         src={`https://art.hearthstonejson.com/v1/render/latest/${this.props.locale}/256x/${this.props.cardData.cardId}.png`}
                         className="img-fluid"
@@ -103,8 +104,8 @@ class Pagination extends Component {
                     </MDBPageItem>
                     {
                         this.props.pages.map((_, pageNumber) => (
-                            <MDBPageItem key={pageNumber} active={pageNumber === this.props.activePage} >
-                                <MDBPageNav pagenumber={pageNumber} onClick={this.props.goToPage}>
+                            <MDBPageItem key={pageNumber} active={pageNumber === this.props.activePage}>
+                                <MDBPageNav onClick={this.props.goToPage} pagenumber={pageNumber}>
                                     {pageNumber + 1}
                                     {
                                         pageNumber === this.props.activePage &&
