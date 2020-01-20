@@ -8,6 +8,7 @@ export default class CardsContainer extends Component {
         super(props);
         this.state = {
             activePage: 0,
+            filteredCards: {},
             pagedData: []
         }
         this.splitCardArray = this.splitCardArray.bind(this);
@@ -18,18 +19,15 @@ export default class CardsContainer extends Component {
         for (let i = 0; i < Math.ceil(array.length / size); i++) {
             splittedArray[i] = array.slice((i * size), (i * size) + size);
         }
-        this.setState({ pagedData: splittedArray },
-            () => console.log(splittedArray))
-    }
-
-    componentDidUpdate(){
-        if (this.props.filteredCards !== undefined && this.state.pagedData.length === 0) {
-            this.splitCardArray(this.props.filteredCards)
-        }
-        console.log(this.state.pagedData, this.state.pagedData.length);
+        this.setState({ pagedData: splittedArray })
     }
 
     render() {
+        if (this.state.filteredCards.length !== this.props.filteredCards.length) {
+            this.setState({ filteredCards: this.props.filteredCards }, () => {
+                this.splitCardArray(this.state.filteredCards);
+            })
+        }
         return (
             <React.Fragment>
                 <MDBContainer fluid>

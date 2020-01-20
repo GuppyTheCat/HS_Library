@@ -21,7 +21,8 @@ class App extends Component {
     this.state = {
       locale: "enUS",
       hsApiInfo: {},
-      hsApiCards: {}
+      hsApiCards: {},
+      filteredCards: {}
     };
     this.getInfo();
     this.getCards();
@@ -42,6 +43,7 @@ class App extends Component {
     this.setState({ [event.target.title]: event.target.value }, () => this.filterCards())
   }
 
+
   render() {
     return (
       <React.Fragment>
@@ -52,10 +54,10 @@ class App extends Component {
               <LocaleSelector locale={this.state.locale} setLocale={this.setLocale} />
             </MDBCol>
             <MDBCol sm="8" lg="9">
-              {this.state.hsApiCards ?
+              {this.state.filteredCards.length > 0 ?
                 <CardsContainer
-                  filteredCards={this.state.filteredCards}
                   locale={this.state.locale}
+                  filteredCards={this.state.filteredCards}
                 /> : ""
               }
             </MDBCol>
