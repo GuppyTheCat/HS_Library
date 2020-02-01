@@ -16,8 +16,6 @@ class App extends Component {
     this.getInfo = getInfo.bind(this);
     this.getCards = getCards.bind(this);
     this.filterCards = filterCards.bind(this);
-    this.setLocale = this.setLocale.bind(this);
-    this.handleOptionChange = this.handleOptionChange.bind(this);
     this.state = {
       locale: "enUS",
       hsApiInfo: {},
@@ -28,7 +26,7 @@ class App extends Component {
     this.getCards();
   }
 
-  setLocale(event) {
+  setLocale = (event) => {
     this.setState({
       locale: event.target.value
     },
@@ -39,25 +37,27 @@ class App extends Component {
       });
   }
 
-  handleOptionChange(event) {
+  handleOptionChange = (event) => {
     this.setState({ [event.target.title]: event.target.value }, () => this.filterCards())
   }
 
 
   render() {
+    const { locale, filteredCards } = this.state;
+    
     return (
       <React.Fragment>
         <MDBContainer fluid>
           <MDBRow>
             <MDBCol sm="4" lg="3">
-              <Filters locale={this.state.locale} handleOptionChange={this.handleOptionChange} />
-              <LocaleSelector locale={this.state.locale} setLocale={this.setLocale} />
+              <Filters locale={locale} handleOptionChange={this.handleOptionChange} />
+              <LocaleSelector locale={locale} setLocale={this.setLocale} />
             </MDBCol>
             <MDBCol sm="8" lg="9">
-              {this.state.filteredCards.length > 0 ?
+              {filteredCards.length > 0 ?
                 <CardsContainer
-                  locale={this.state.locale}
-                  filteredCards={this.state.filteredCards}
+                  locale={locale}
+                  filteredCards={filteredCards}
                 /> : ""
               }
             </MDBCol>

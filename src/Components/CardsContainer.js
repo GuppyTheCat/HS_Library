@@ -8,16 +8,11 @@ export default class CardsContainer extends Component {
         super(props);
         this.state = {
             activePage: 0,
-            filteredCards: {},
             pagedData: []
         }
-        this.splitCardArray = this.splitCardArray.bind(this);
-        this.goToNextPage = this.goToNextPage.bind(this);
-        this.goToPreviousPage = this.goToPreviousPage.bind(this);
-        this.goToPage = this.goToPage.bind(this);
     }
 
-    splitCardArray(array, size = 12) {
+    splitCardArray = (array, size = 12) => {
         let splittedArray = [];
         for (let i = 0; i < Math.ceil(array.length / size); i++) {
             splittedArray[i] = array.slice((i * size), (i * size) + size);
@@ -25,39 +20,43 @@ export default class CardsContainer extends Component {
         this.setState({ pagedData: splittedArray })
     }
 
-    goToNextPage() {
+    goToNextPage = () => {
         this.setState(prevState => ({ activePage: prevState.activePage + 1 }))
     }
-    goToPreviousPage() {
+    goToPreviousPage = () => {
         this.setState(prevState => ({ activePage: prevState.activePage - 1 }))
     }
 
-    goToPage(event) {
-        console.log(event.target, event.target.pagenumber, event.target.className);
-        /*this.setState({ activePage: event.target.pagenumber })*/
-        this.setState({ activePage: +(event.target.text).replace(/\D/g, "") - 1 })
+    goToPage = (event) => {
+        this.setState({ activePage: event.currentTarget.getAttribute('pagenumber') })
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.filteredCards.length !== this.props.filteredCards.length) {
+            this.setState({ activePage: 0 }, () => {
+                this.splitCardArray(this.props.filteredCards);
+            })
+        }
     }
 
     render() {
-        if (this.state.filteredCards.length !== this.props.filteredCards.length) {
-            this.setState({ filteredCards: this.props.filteredCards, activePage: 0 }, () => {
-                this.splitCardArray(this.state.filteredCards);
-            })
-        }
+        const { locale } = this.props;
+        const { pagedData, activePage } = this.state;
+
         return (
             <React.Fragment>
                 <MDBContainer fluid>
                     <MDBRow>
-                        {this.state.pagedData[this.state.activePage] !== undefined &&
-                            this.state.pagedData[this.state.activePage].map(card =>
-                                <Card key={card.id} cardData={card} locale={this.props.locale} />
+                        {pagedData[activePage] &&
+                            pagedData[activePage].map(card =>
+                                <Card key={card.cardId} cardData={card} locale={locale} />
                             )
                         }
                         <MDBCol size="12">
-                            {this.state.pagedData[this.state.activePage] !== undefined &&
+                            {pagedData[activePage] &&
                                 <Pagination
-                                    pages={this.state.pagedData}
-                                    activePage={this.state.activePage}
+                                    pages={pagedData}
+                                    activePage={activePage}
                                     goToNextPage={this.goToNextPage}
                                     goToPreviousPage={this.goToPreviousPage}
                                     goToPage={this.goToPage}
@@ -72,8 +71,22 @@ export default class CardsContainer extends Component {
 }
 
 class Card extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            cardData: this.props.cardData
+        }
+    }
+
+    componentWillUnmount() {
+        this.setState({ cardData: {} })
+    }
 
     render() {
+        const { locale } = this.props;
+        const { cardData } = this.state;
+
         return (
             <React.Fragment>
                 <MDBCol
@@ -81,7 +94,7 @@ class Card extends Component {
                     lg="4"
                     xl="3">
                     <img
-                        src={`https://art.hearthstonejson.com/v1/render/latest/${this.props.locale}/256x/${this.props.cardData.cardId}.png`}
+                        src={`https://art.hearthstonejson.com/v1/render/latest/${locale}/256x/${cardData.cardId}.png`}
                         className="img-fluid"
                         alt=""
                     />
@@ -92,31 +105,32 @@ class Card extends Component {
 }
 
 class Pagination extends Component {
-
     render() {
+        const { pages, activePage, goToPage, goToNextPage, goToPreviousPage } = this.props;
+
         return (
             <React.Fragment>
                 <MDBPagination className="my-5 mx-auto">
-                    <MDBPageItem disabled={this.props.activePage === 0}>
-                        <MDBPageNav aria-label="Previous" onClick={this.props.goToPreviousPage}>
+                    <MDBPageItem disabled={activePage === 0}>
+                        <MDBPageNav aria-label="Previous" onClick={goToPreviousPage}>
                             <span aria-hidden="true">Previous</span>
                         </MDBPageNav>
                     </MDBPageItem>
                     {
-                        this.props.pages.map((_, pageNumber) => (
-                            <MDBPageItem key={pageNumber} active={pageNumber === this.props.activePage}>
-                                <MDBPageNav onClick={this.props.goToPage} pagenumber={pageNumber}>
+                        pages.map((_, pageNumber) => (
+                            <MDBPageItem key={pageNumber} active={pageNumber === activePage}>
+                                <MDBPageNav pagenumber={pageNumber} onClick={goToPage}>
                                     {pageNumber + 1}
                                     {
-                                        pageNumber === this.props.activePage &&
+                                        pageNumber === activePage &&
                                         <span className="sr-only">(current)</span>
                                     }
                                 </MDBPageNav>
                             </MDBPageItem>
                         ))
                     }
-                    <MDBPageItem disabled={this.props.activePage === this.props.pages.length - 1}>
-                        <MDBPageNav aria-label="Next" onClick={this.props.goToNextPage}>
+                    <MDBPageItem disabled={activePage === pages.length - 1}>
+                        <MDBPageNav aria-label="Next" onClick={goToNextPage}>
                             <span aria-hidden="true">Next</span>
                         </MDBPageNav>
                     </MDBPageItem>
